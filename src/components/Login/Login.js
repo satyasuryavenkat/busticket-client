@@ -4,7 +4,7 @@ import { useState } from 'react';
 // import { authenticateUser } from '../../api';/
 import axios from 'axios';
 import {useDispatch} from 'react-redux';
-import { setUserLoggedIn } from '../../actions/user';
+import { setUserLoggedIn, setUserMail } from '../../actions/user';
 
 
 
@@ -22,9 +22,10 @@ const Login = () => {
             if(res.status === 200)
             {
                 disptach(setUserLoggedIn(true));
+                disptach(setUserMail(user.email));
 
             }
-          })
+          });
         
     };
 

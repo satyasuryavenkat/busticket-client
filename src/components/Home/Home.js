@@ -1,22 +1,19 @@
 import React, { useEffect } from 'react';
 import './style.css';
 import { useState } from 'react';
-// import { authenticateUser } from '../../api';/
-import axios from 'axios';
 import {useDispatch} from 'react-redux';
-import { setUserLoggedIn } from '../../actions/user';
+import { setBusName } from '../../actions/user';
 import { buseData } from '../data/bus';
-
+import { useNavigate } from 'react-router-dom';
 
 
 const Home = () => {
 
     const disptach = useDispatch();
-
+    const navigate = useNavigate();
     const [filter, setFilter] = useState({source: '', destination: '' });
     const [error, setError] = useState(false);
     const [buses, setBuses] = useState([]);
-    const url = 'http://localhost:5051/bus';
     const handleSubmit = (e) => {
 
         e.preventDefault();
@@ -26,10 +23,19 @@ const Home = () => {
         else{
             setBuses(buseData.hydToChennai);
         }
-        console.log(buses.length);
+        console.log(buses);
         
         
     };
+    const bookBus = (busNam) =>{
+
+        disptach(setBusName(busNam));
+        navigate('/book');
+        
+        return true;
+    }
+
+
 
     useEffect(() => {
         if((filter.source === filter.destination) && (filter.source!=='' && filter.destination!=='')){
@@ -82,13 +88,14 @@ const Home = () => {
 {
     buses.length === 0 ? '' :
     buses.map((bus) => (
-        <div key={bus} className="card">
+   
+        <div key={bus} className="card" style={{margin: 10, cursor: 'pointer'}} onClick={() => {
+            bookBus(bus);
+            }}>
   <div className="card-body">
-    bus
+    {bus}
   </div>
 </div>
-
-
     ))
 }
     
