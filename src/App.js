@@ -1,24 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
 
-function App() {
+import './App.css';
+import Login from './components/Login/Login';
+import Home from './components/Home/Home';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
+const App = () => {
+  const isUserLoggedIn = useSelector((state) => state.users.isUserLoggedIn);
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    // <Login/>
+    <>
+    <BrowserRouter>
+            <Routes>
+                <Route
+                    path="/"
+                    element={ isUserLoggedIn ? <Home /> : <Login/> }
+                />
+                {/* The next line is very important for the Navigate component to work */}
+                {/* <Route
+                    path="/home"
+                    element={ <Home /> }
+                /> */}
+                {/* <Route
+                    path="/redirect"
+                    element={ <Navigate to="/error-page" /> }
+                /> */}
+            </Routes>
+        </BrowserRouter>
+    </>
   );
 }
 
